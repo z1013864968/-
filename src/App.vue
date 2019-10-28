@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    初始化 <el-button type="success" round>成功按钮</el-button>
+    <router-view></router-view>
   </div>
 </template>
 
