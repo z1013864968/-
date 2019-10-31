@@ -6,6 +6,7 @@ import login from '@/views/login/login.vue'
 import home from '@/views/home'
 import welcome from '@/views/welcome'
 import isFores from '@/views/404'
+import article from '@/views/article'
 
 import local from '@/utils/local'
 
@@ -25,8 +26,12 @@ const router = new VueRouter({
       // 欢迎
         {
           path: '', component: welcome
+        },
+        {
+          path: '/article', component: article
         }]
     },
+
     { path: '*', component: isFores }
   ]
 

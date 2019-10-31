@@ -4,7 +4,7 @@
     <el-aside :width="isopan?'200px':'64px'">
       <div class="logo" :class="{smallLogo:!isopan}"></div>
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         router
         background-color="#002033"
         text-color="#fff"

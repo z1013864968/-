@@ -9,6 +9,9 @@ import axios from '@/api'
 
 // 引入路由
 import router from '@/router'
+import plugin from '@/components'
+
+Vue.use(plugin)
 Vue.use(ElementUI)
 
 // Vue.config.productionTip = false
