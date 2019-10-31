@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     // 验证手机号函数 =》自定义校验
@@ -70,13 +71,24 @@ export default {
   },
   methods: {
     login () {
-      this.$refs['loginFrom'].validate((valid) => {
+      this.$refs['loginFrom'].validate(async (valid) => {
         if (valid) {
-          this.$http.post('authorizations', this.loginFrom).then((res) => {
+          // this.$http.post('authorizations', this.loginFrom).then((res) => {
+          //   // 成功
+          //   // 保存用户信息(token)
+          //   console.log(res)
+          //   local.setUser(res.data.data)
+          //   this.$router.push('/')
+          // }).catch(() => {
+          //   this.$message.error('手机号或验证码错误')
+          // })
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.loginFrom)
+            local.setUser(data)
             this.$router.push('/')
-          }).catch(() => {
+          } catch (e) {
             this.$message.error('手机号或验证码错误')
-          })
+          }
         }
       })
     }
