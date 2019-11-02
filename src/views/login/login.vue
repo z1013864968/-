@@ -53,7 +53,7 @@ export default {
     }
     return {
       loginFrom: {
-        mobile: '13366666666',
+        mobile: '13911111111',
         code: '246810'
       },
       // 校验
