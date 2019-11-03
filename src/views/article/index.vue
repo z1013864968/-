@@ -6,7 +6,7 @@
         <my-bread>内容管理</my-bread>
       </div>
       <el-form label-width="80px" size="small">
-        <el-form-item label="状态:">
+        <el-form-item label="状态：">
           <el-radio-group v-model="reqParams.status">
             <el-radio :label="null">全部</el-radio>
             <el-radio :label="0">草稿</el-radio>
@@ -18,11 +18,12 @@
         </el-form-item>
         <!-- 频道 -->
           <app-channel v-model="reqParams.channel_id"></app-channel>
-        <el-form-item label="日期:">
+
+        <el-form-item label="日期：">
           <!-- v-model绑定的是数组  [起始时间,结束时间]-->
           <el-date-picker
             v-model="arrDate"
-            @change='changeDate'
+            @change="changeDate"
             value-format="yyyy-MM-dd"
             type="daterange"
             range-separator="至"
@@ -66,7 +67,13 @@
         <el-table-column label="发布时间" prop="pubdate"></el-table-column>
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" circle plain @click="toEdit(scope.row.id)"></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              plain
+              @click="toEdit(scope.row.id)"
+            ></el-button>
             <el-button type="danger" icon="el-icon-delete" circle plain @click="del(scope.row.id)"></el-button>
           </template>
         </el-table-column>
@@ -77,12 +84,14 @@
       <!--page-size total默认显示10条每页  -->
       <!-- current-page动态的激活当前页码对应的按钮-->
       <!-- current-change事件:当页码改变(点击按钮 上一页 下一页)就执行  参数是当前改变后的页码-->
-      <el-pagination style="margin-top:20px"
-      background layout="prev, pager, next"
-      :total="total"
-      :page-size='reqParams.per_page'
-      :current-page="reqParams.page"
-      @current-change="pager"
+      <el-pagination
+        style="margin-top:20px"
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="reqParams.per_page"
+        :current-page="reqParams.page"
+        @current-change="pager"
       ></el-pagination>
     </el-card>
   </el-table-column>
@@ -135,7 +144,7 @@ export default {
     },
     // 分页功能
     pager (newPager) {
-    // 根据新的页码和当前的筛选条件 从新查询数据即可
+      // 根据新的页码和当前的筛选条件 从新查询数据即可
       this.reqParams.page = newPager
       this.getArticle()
     },

@@ -1,5 +1,5 @@
 <template>
-  <el-form-item label="频道:">
+  <el-form-item label="频道：">
     <el-select :value="value" @change="fn" placeholder="请选择" clearable>
       <el-option
       v-for="item in Coptions"
