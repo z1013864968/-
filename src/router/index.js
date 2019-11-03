@@ -7,6 +7,7 @@ import home from '@/views/home'
 import welcome from '@/views/welcome'
 import isFores from '@/views/404'
 import article from '@/views/article'
+import Image from '@/views/image'
 
 import local from '@/utils/local'
 
@@ -24,12 +25,10 @@ const router = new VueRouter({
       component: home,
       children: [
       // 欢迎
-        {
-          path: '', component: welcome
-        },
-        {
-          path: '/article', component: article
-        }]
+        { path: '', component: welcome },
+        { path: '/article', component: article },
+        { path: '/image', component: Image }
+      ]
     },
 
     { path: '*', component: isFores }
