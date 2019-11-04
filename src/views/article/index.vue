@@ -1,5 +1,5 @@
 <template>
-  <el-table-column class="artivle">
+  <div class="artivle">
     <!-- 筛选添加布局 -->
     <el-card>
       <div slot="header">
@@ -94,7 +94,7 @@
         @current-change="pager"
       ></el-pagination>
     </el-card>
-  </el-table-column>
+  </div>
 </template>
 
 <script>

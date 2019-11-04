@@ -2,7 +2,7 @@
   <div class="my-image">
     <!--按钮  -->
     <div class="btn_box" @click="open">
-      <img src="../assets/default.png" alt />
+      <img :src="value||btnImage" alt />
     </div>
 
     <!-- 对话框 -->
@@ -46,7 +46,7 @@
             :headers="headers"
             name="image"
             :show-file-list="false"
-             :on-success="handleSuccess"
+            :on-success="handleSuccess"
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -56,7 +56,7 @@
       </el-tabs>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="confirmImage">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -64,7 +64,10 @@
 
 <script>
 import local from '@/utils/local'
+import Default from '../assets/default.png'
 export default {
+  // value 是封面图片的地址
+  props: ['value'],
   data () {
     return {
       // 对话框的显示与隐藏
@@ -83,6 +86,8 @@ export default {
       },
       // 上传后的图片地址
       imageUrl: null,
+      // 显示图片
+      btnImage: Default,
       // 请求素材参数
       reqParams: {
         collect: false,
@@ -92,6 +97,7 @@ export default {
     }
   },
   methods: {
+    // 点击图片按钮
     open () {
       this.dialogVisible = true
       this.getImages()
@@ -114,12 +120,38 @@ export default {
       this.reqParams.page = newPager
       this.getImages()
     },
+    // 选中图片=》对号
     selectedImage (url) {
       this.selectedImageUrl = url
     },
+    // 上传成功
     handleSuccess (res) {
       this.imageUrl = res.data.url
       this.$message.success('上传成功')
+    },
+    // 点击确定按钮=》判断选中的是素材还是上传
+    // 用activeName来确定 然后校验 在把选中的图片显示在预览图中
+    confirmImage () {
+      // 判断素材库中的图片是否被选中
+      if (this.activeName === 'image') {
+        // 没有被选中
+        if (!this.selectedImageUrl) {
+          return this.$message.warning('请选择一张图片')
+        }
+        // 选中后让选中的图片赋值给预览图
+        // this.btnImage = this.selectedImageUrl
+        this.$emit('input', this.selectedImageUrl)
+        // 关闭对话框
+        this.dialogVisible = false
+        // 上传
+      } else if (this.activeName === 'upload') {
+        if (!this.imageUrl) {
+          return this.$message.warning('请上传一张图片')
+        }
+        // this.btnImage = this.imageUrl
+        this.$emit('input', this.imageUrl)
+        this.dialogVisible = false
+      }
     }
   }
 }
