@@ -9,6 +9,8 @@ import isFores from '@/views/404'
 import article from '@/views/article'
 import Image from '@/views/image'
 import Publish from '@/views/publish'
+import Comment from '@/views/comment'
+import Setting from '@/views/setting'
 
 import local from '@/utils/local'
 
@@ -29,7 +31,9 @@ const router = new VueRouter({
         { path: '', component: welcome },
         { path: '/article', component: article },
         { path: '/image', component: Image },
-        { path: '/publish', component: Publish }
+        { path: '/publish', component: Publish },
+        { path: '/comment', component: Comment },
+        { path: '/setting', component: Setting }
       ]
     },
 
