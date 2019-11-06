@@ -81,7 +81,6 @@ export default {
     },
     // 修改上传图片
     async uploadPhoto (r) {
-      console.log(r.file)
       const formData = new FormData()
       formData.append('photo', r.file)
       const { data: { data } } = await this.$http.patch('user/photo', formData)
