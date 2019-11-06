@@ -74,11 +74,15 @@
 
 <script>
 import local from '@/utils/local'
+import eventBus from '@/eventBus.js'
 export default {
   data () {
     return {
       isopan: true,
-      userInfo: {}
+      userInfo: {
+        name: '',
+        photo: ''
+      }
     }
   },
   created () {
@@ -86,6 +90,13 @@ export default {
     const user = local.getUser() || {}
     this.userInfo.name = user.name
     this.userInfo.photo = user.photo
+    // 绑定事件 接收修改的name的值
+    eventBus.$on('updataName', (name) => {
+      this.userInfo.name = name
+    })
+    eventBus.$on('updataPhoto', (photo) => {
+      this.userInfo.photo = photo
+    })
   },
   methods: {
     toggleMenu () {

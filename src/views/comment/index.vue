@@ -20,10 +20,25 @@
               type="danger"
               size="small"
             >关闭评论</el-button>
-            <el-button v-else type="success" @click="toggleStatus(scope.row.id,true)" size="small">打开评论</el-button>
+            <el-button
+              v-else
+              type="success"
+              @click="toggleStatus(scope.row.id,true)"
+              size="small"
+            >打开评论</el-button>
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 分页 -->
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="reqParams.per_page"
+        :current-page="reqParams.page"
+        @current-change="pager"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
@@ -34,11 +49,19 @@ export default {
     return {
       articles: [],
       reqParams: {
-        response_type: 'comment'
-      }
+        response_type: 'comment',
+        page: 1,
+        per_page: 10
+      },
+      total: 0
     }
   },
   methods: {
+    // 分页
+    pager (newPager) {
+      this.reqParams.page = newPager
+      this.getArticles()
+    },
     async getArticles () {
       const {
         data: { data }
@@ -46,22 +69,28 @@ export default {
       this.articles = data.results
     },
     toggleStatus (id, status) {
-      const text = status ? '您确认要打开评论吗？' : '您确认关闭评论吗，如果关闭用户将无法对该文章进行评论。'
+      const text = status
+        ? '您确认要打开评论吗？'
+        : '您确认关闭评论吗，如果关闭用户将无法对该文章进行评论。'
       this.$confirm(text, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(async () => {
-          const { data: { data } } = await this.$http.put(`/comments/status?article_id=${id}`, { allow_comment: status })
+          const {
+            data: { data }
+          } = await this.$http.put(`/comments/status?article_id=${id}`, {
+            allow_comment: status
+          })
           // 提示
-          this.$message.success(data.allow_comment ? '打开评论成功' : '关闭评论成功')
+          this.$message.success(
+            data.allow_comment ? '打开评论成功' : '关闭评论成功'
+          )
           // 更新当前列表
           this.getArticles()
         })
-        .catch(() => {
-
-        })
+        .catch(() => {})
     }
   },
   created () {
